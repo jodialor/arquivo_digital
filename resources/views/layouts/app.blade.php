@@ -54,7 +54,8 @@
                           <li><a href="{{ route('admin_menu') }}">Admin Menu</a></li>
                         @endif
                         @if(Auth::guest())
-                            <li><a href="{{ route('login') }}">Login</a></li>
+                            <li class="{{ Request::is('login') ? "active" : "" }}"><a href="{{ route('login') }}">Login</a></li>
+                            <li class="{{ Request::is('register') ? "active" : "" }}"><a href="{{ route('register') }}">Register</a></li>
                             @else
                                   <li>
                                      <a href="{{route('dashboard')}}" class="dropdown-toggle"  role="button" aria-expanded="false">
