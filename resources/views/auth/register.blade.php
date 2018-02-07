@@ -27,7 +27,7 @@
                             <label for="department" class="col-md-4 control-label">Departamentos:</label>
 
                             <div class="col-md-6">
-                              <select class="form-control "  name"id_departament">
+                              <select class="form-control"  name="id_department">
                                 <option value="1">Diretor de Serviços</option>
                                 <option value="2">Divisão de Apoio à Educação Artística</option>
                                 <option value="3">Divisão de Expressões Artísticas</option>
