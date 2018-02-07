@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use DB;
 use App\User;
+use App\Department;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+
 
 class RegisterController extends Controller
 {
@@ -69,5 +72,16 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
             'id_department' => $data['id_department'],
         ]);
+    }
+
+    /**
+     * Get id and name of departments from DB and pass them to register view.
+     *
+     * @return
+     */
+    public function showRegistrationForm()
+    {
+      $departs = Department::all(['id', 'name']);
+      return view("auth.register", compact("departs"));
     }
 }

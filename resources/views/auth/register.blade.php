@@ -23,30 +23,23 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="department" class="col-md-4 control-label">Departamentos:</label>
 
+                        <div class="form-group{{ $errors->has('id_department') ? ' has-error' : '' }}">
+                            <label for="id_department" class="col-md-4 control-label">Departamentos:</label>
                             <div class="col-md-6">
                               <select class="form-control"  name="id_department">
-                                <option value="1">Diretor de Serviços</option>
-                                <option value="2">Divisão de Apoio à Educação Artística</option>
-                                <option value="3">Divisão de Expressões Artísticas</option>
-                                <option value="4">Divisão de Investigação e Multimédia</option>
-                                <option value="5">Secção Administrativa</option>
-                                <option value="6">Sistema de Gestão</option>
-                                <option value="7">Área de Informática</option>
-                                <option value="8">Produção</option>
-                                <option value="9">Comunicação, Imagem e Vídeo</option>
-                                <option value="10">Equipa de Animação</option>
-                                <option value="11">Centro Multimédia</option>
-                              <select>
-                                @if ($errors->has('email'))
+                                @foreach($departs as $depart)
+                                  <option value="{{$depart->id}}">{{$depart->name}}</option>
+                                @endforeach
+                              </select>
+                                @if ($errors->has('id_department'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
+                                        <strong>{{ $errors->first('id_department') }}</strong>
                                     </span>
                                 @endif
                             </div>
                         </div>
+
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
