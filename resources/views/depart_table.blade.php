@@ -81,7 +81,7 @@
         <div class="modal-footer">
           <input type="hidden" name="id" id="_user" value="" >
           <input type="hidden" name="_token"  value="{{ csrf_token() }}" >
-          <button type="submit" onclick="depart_inser_submit(this)" class="btn btn-primary" onclick="depart_inser_submit(this)" ><i class="fa fa-check" aria-hidden="true"></i> Confirmar</button>
+          <button type="submit"class="btn btn-primary" onclick="depart_inser_submit(this)" ><i class="fa fa-check" aria-hidden="true"></i> Confirmar</button>
           <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Fechar</button>
         </div>
       </form>
@@ -116,7 +116,7 @@
         <div class="modal-footer">
           <input type="text" id="id_depart" name="id_depart" style="display: none" >
           <input type="text" name="_token"  value="{{ csrf_token() }}" style="display: none" >
-          <button type="submit" onclick="depart_edi_submit(this)"  class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i>  Guardar Mudanças</button>
+          <button type="submit" onclick="depart_edi_submit(this)" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i>  Guardar Mudanças</button>
           <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Fechar</button>
         </div>
       </form>
