@@ -138,7 +138,7 @@
             </div>
         </div>
         <div class="modal-footer">
-          <button type="submit"class="btn btn-primary modelInser" onclick="this.style.visibility = 'hidden'" ><i class="fa fa-check" aria-hidden="true"></i> Confirmar</button>
+          <button type="submit" class="btn btn-primary modelInser" onclick="this.style.visibility = 'hidden'" ><i class="fa fa-check" aria-hidden="true"></i> Confirmar</button>
           <input type="hidden" name="_token"  value="{{ csrf_token() }}" >
           <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Fechar</button>
         </div>

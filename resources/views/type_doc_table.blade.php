@@ -103,8 +103,8 @@
         <div class="modal-footer">
           <input type="text" id="id_type_doc" name="id_type_doc" style="display: none" >
           <input type="text" name="_token"  value="{{ csrf_token() }}" style="display: none" >
-          <button type="submit" id="btn_type_edit" onclick="type_edi_submit(this)" data-dismiss="modal" class="btn btn-primary">Guardar Mudanças</button>
-          <button type="button" class="btn btn-warning" data-dismiss="modal">Fechar</button>
+          <button type="submit" onclick="type_edi_submit(this)" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i> Guardar Mudanças</button>
+          <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Fechar</button>
         </div>
       </form>
       </div><!-- /.modal-content -->
@@ -146,10 +146,10 @@
           <h4 class="modal-title">Apagar Tipo de Doc</h4>
         </div>
         <div class="modal-body">
-          <h4>Tem a certesa que quer apagar este Tipo Doc???</h4>
+          <h4>Tem a certeza que quer apagar este Tipo Doc???</h4>
           <ul>
             <li>
-              Todos os documentos que fazem parte deste Tipo Doc irão ser apagado.
+              Todos os documentos que fazem parte deste Tipo Doc irão ser apagados.
             </li>
           </ul>
           <input  id="apagar_type_doc" name="apagar_type_doc"  style="display: none">
@@ -181,12 +181,12 @@
 
 
   function edit_type_docs(elem) {
-         event.preventDefault();
-         $("#ModalEdit").modal();
-         name = document.getElementById('type_docs'+elem.name).value;
-         document.getElementById('type_doc_edit').value=name;
-         document.getElementById('id_type_doc').value=elem.name;
-   }
+      event.preventDefault();
+      $("#ModalEdit").modal();
+      name = document.getElementById('type_docs'+elem.name).value;
+      document.getElementById('type_doc_edit').value=name;
+      document.getElementById('id_type_doc').value=elem.name;
+  }
 
    function type_edi_submit(elem) {
       if(document.getElementById('type_doc_edit').value==null){
@@ -196,7 +196,7 @@
       }
       return true;
       document.getElementById("type_form_edi").submit();
-      document.getElementById("btn_type_edit").disabled = true;
+      //document.getElementById("btn_type_edit").disabled = true;
     }
 
     function type_inser_submit(elem) {
