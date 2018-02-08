@@ -81,6 +81,10 @@
         @yield('content')
     </div>
 
+    <div>
+      @include('_footer')
+    </div>
+
     <!-- Scripts -->
     <script>
     $(document).ready(function() {
