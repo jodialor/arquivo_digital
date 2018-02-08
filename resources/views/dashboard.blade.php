@@ -91,30 +91,18 @@
                 <label>Departamento:</label><br>
                 <select name='departamento'  class='btn btn-default dropdown-toggle' required='required' id="depart"  style='text-align:left!important; width:270px!important;' required>
     		            <option selected disabled value="">-Selecione o Departamento -</option>";
-                    <option value="1">Diretor de Serviços</option>
-                    <option value="2">Divisão de Apoio à Educação Artística</option>
-                    <option value="3">Divisão de Expressões Artísticas</option>
-                    <option value="4">Divisão de Investigação e Multimédia</option>
-                    <option value="5">Secção Administrativa</option>
-                    <option value="6">Sistema de Gestão</option>
-                    <option value="7">Área de Informática</option>
-                    <option value="8">Produção</option>
-                    <option value="9">Comunicação, Imagem e Vídeo</option>
-                    <option value="10">Equipa de Animação</option>
-                    <option value="11">Centro Multimédia</option>
+                    @foreach($departs as $depart)
+                      <option value="{{$depart->id}}">{{$depart->name}}</option>
+                    @endforeach
                 </select>
               </div>
               <div class='form-group has-feedback'>
                 <label>Tipo de Documento:</label><br>
                 <select  class='btn btn-default dropdown-toggle' required='required' name="type_doc" style='text-align:left!important;' required>
                     <option selected disabled value="">-Selecione o Tipo de Documento-</option>
-                    <option value='1'> Certificado </option>
-                    <option value='2'> Declaração </option>
-                    <option value='3'> Informação Interna </option>
-                    <option value='4'> Nota Interna </option>
-                    <option value='5'> Ofício Circular </option>
-                    <option value='6'> Press Release </option>
-                    <option value='7'> Fax </option>
+                    @foreach($doc_types as $type)
+                      <option value="{{$type->id}}">{{$type->type}}</option>
+                    @endforeach
                 </select>
               </div>
               <div class='form-group has-feedback' style='width:270px!important;'>
@@ -170,29 +158,17 @@
               <div class='form-group has-feedback'>
                 <label>Departamento:</label><br>
                 <select name='departamento_edi'  class='btn btn-default dropdown-toggle' required='required' id="depart_edi" style='text-align:left!important; width:270px!important;'>
-                    <option value="1">Diretor de Serviços</option>
-                    <option value="2">Divisão de Apoio à Educação Artística</option>
-                    <option value="3">Divisão de Expressões Artísticas</option>
-                    <option value="4">Divisão de Investigação e Multimédia</option>
-                    <option value="5">Secção Administrativa</option>
-                    <option value="6">Sistema de Gestão</option>
-                    <option value="7">Área de Informática</option>
-                    <option value="8">Produção</option>
-                    <option value="9">Comunicação, Imagem e Vídeo</option>
-                    <option value="10">Equipa de Animação</option>
-                    <option value="11">Centro Multimédia</option>
+                  @foreach($departs as $depart)
+                    <option value="{{$depart->id}}">{{$depart->name}}</option>
+                  @endforeach
                 </select>
               </div>
               <div class='form-group has-feedback'>
                 <label>Tipo de Documento:</label><br>
                 <select  class='btn btn-default dropdown-toggle' required='required' name="type_doc_edi" id="type_doc_edi" style='text-align:left!important;'>
-                    <option value='1'> Certificado </option>
-                    <option value='2'> Declaração </option>
-                    <option value='3'> Informação Interna </option>
-                    <option value='4'> Nota Interna </option>
-                    <option value='5'> Ofício Circular </option>
-                    <option value='6'> Press Release </option>
-                    <option value='7'> Fax </option>
+                  @foreach($doc_types as $type)
+                    <option value="{{$type->id}}">{{$type->type}}</option>
+                  @endforeach
                 </select>
               </div>
               <div class='form-group has-feedback' style='width:270px!important;'>

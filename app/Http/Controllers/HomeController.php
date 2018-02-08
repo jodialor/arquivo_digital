@@ -42,12 +42,21 @@ class HomeController extends Controller
             ->join('departments', 'departments.id', '=', 'documents.id_departamento')
             ->select('documents.*', 'type_docs.type', 'users.name','departments.abbreviation')
             ->get();
+
       $user=DB::table('users')
       ->select('users.*')
       ->get();
 
-            //$doc = Document::all();
-      return view('dashboard',['doc'=>$doc],['user'=>$user]);
+      $departs=DB::table('departments')
+      ->select('departments.*')
+      ->get();
+
+      $doc_types=DB::table('type_docs')
+      ->select('type_docs.*')
+      ->get();
+
+      return view('dashboard', compact("doc","user","departs","doc_types"));
+      //['doc'=>$doc], ['user'=>$user], ['departments'=>$departments], ['doc_types'=>$doc_types]
     }
     public function getLogin(){
 

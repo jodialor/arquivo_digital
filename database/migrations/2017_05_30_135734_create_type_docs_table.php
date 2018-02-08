@@ -16,7 +16,7 @@ class CreateTypeDocsTable extends Migration
         Schema::create('type_docs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('type');
-            $table->timestamps();
+            //$table->timestamps();
         });
     }
 
