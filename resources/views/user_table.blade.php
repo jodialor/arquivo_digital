@@ -255,7 +255,7 @@
           <h4 class="modal-title">Apagar Utilizador</h4>
         </div>
         <div class="modal-body">
-          <h4>Tem a certesa que quer apagar este Utilizador??? </h4><br>
+          <h4>Tem a certeza que quer apagar este Utilizador??? </h4><br>
           <ul>
             <li>
               Todos os documentos criados por este utilizador irão ser apagados.

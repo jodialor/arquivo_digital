@@ -164,10 +164,10 @@
           <h4 class="modal-title">Apagar Departamento</h4>
         </div>
         <div class="modal-body">
-          <h4>Tem a certesa que quer apagar este Departamento???</h4>
+          <h4>Tem a certeza que quer apagar este Departamento???</h4>
           <ul>
             <li>
-              Todos os documentos e utilizadores que fazem parte deste Departamento irão ser apagado.
+              Todos os documentos e utilizadores que fazem parte deste Departamento irão ser apagados.
             </li>
           </ul>
           <input  id="apagar_depart" name="apaga_depart"  style="display: none">
