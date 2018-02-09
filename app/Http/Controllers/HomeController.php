@@ -64,8 +64,7 @@ class HomeController extends Controller
     }
     public function postInsert(Request $request){
       //Validation
-    //  console.log('pedro');
-    $year=date("Y");
+      $year=date("Y");
       $this->validate($request,[
         'utilizador' => 'required',
         'assunto' => 'required',
@@ -81,7 +80,7 @@ class HomeController extends Controller
       $receiver = $request["dest"];
       $id_tipo_doc = $request["type_doc"];
       $id_departamento =$request["departamento"];
-      $file = 'documento.PDF';
+      $file = '';
       DB::table('documents')->insert([
           ['year' => $year,
            'id_user' => $id_user,
@@ -94,33 +93,34 @@ class HomeController extends Controller
       ]);
       return redirect()->route('dashboard')->with(['message'=>'O documento foi Inserido com sucesso!']);;
     }
+
     public function postDeleteDoc(Request $request){
       $id_doc_apagar=$request["apaga_doc"];
       DB::table('documents')->where('id', '=',$id_doc_apagar)->delete();
 
       return redirect()->route('dashboard')->with(['message'=>' O documento foi Apagado com sucesso!']);
     }
+
     public function postEditDoc(Request $request){
       //Validation
-    //  console.log('pedro');
-    $this->validate($request,[
-      'utilizador_edi' => 'required',
-      'assunto_edi' => 'required',
-      'date_edi' => 'required',
-      'dest_edi' => 'required',
-      'type_doc_edi' => 'required',
-      'departamento_edi' => 'required',
-      'id'=> 'required'
-    ]);
-    $year=date("Y");
-    $id = $request['id'];
-    $id_user = $request["utilizador_edi"];
-    $assunto = $request["assunto_edi"];
-    $data = $request["date_edi"];
-    $receiver = $request["dest_edi"];
-    $id_tipo_doc = $request["type_doc_edi"];
-    $id_departamento =$request["departamento_edi"];
-    $file = 'documento.PDF';
+      $this->validate($request,[
+        'utilizador_edi' => 'required',
+        'assunto_edi' => 'required',
+        'date_edi' => 'required',
+        'dest_edi' => 'required',
+        'type_doc_edi' => 'required',
+        'departamento_edi' => 'required',
+        'id'=> 'required'
+      ]);
+      $year=date("Y");
+      $id = $request['id'];
+      $id_user = $request["utilizador_edi"];
+      $assunto = $request["assunto_edi"];
+      $data = $request["date_edi"];
+      $receiver = $request["dest_edi"];
+      $id_tipo_doc = $request["type_doc_edi"];
+      $id_departamento =$request["departamento_edi"];
+      $file = '';
 
       DB::table('documents')
             ->where('id', $id)
