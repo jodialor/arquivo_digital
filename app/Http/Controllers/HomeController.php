@@ -88,9 +88,8 @@ class HomeController extends Controller
       $id_departamento =$request["departamento"];
       $file = '';
 
-      // Inserir dados do documento na BD
-      $id_doc_atual =
-        DB::table('documents')->insertGetId([
+      // Inserir dados do documento na BD e obter o id do mesmo
+      $id_doc_atual = DB::table('documents')->insertGetId([
            'number' => 0,
            'year' => $year,
            'id_user' => $id_user,
@@ -102,28 +101,30 @@ class HomeController extends Controller
            'file' => $file
       ]);
 
-      // Atualizar/atribuir número do Documento criado
+      // Atribuir um número ao Documento criado, com base no ano em que foi criado
 
-      //verificar se o ultimo documento existente foi criado no ano atual
-      if($year_last_doc != $year){
+      //verificar se o ultimo doc existente foi ou não criado no ano atual
+      if($year_last_doc != $year){  // se tiver sido num ano diferente, faz o seguinte
+        // Obter todos os anos em que existam documentos criados
         $years_with_docs = DB::table('documents')->select('year')->distinct()->get()->toArray();
 
         foreach ($years_with_docs as $key => $at_year) {
-          if($year == $at_year->year){
+          // verificar se no ano atual já existem docs
+          if($year == $at_year->year){  // se sim, procura o número max e incrementa 1
             $max_number = DB::table('documents')->where('year', $year)->max('number');
             $doc_number = $max_number + 1;
             break;
           }
-          else{
-          $doc_number = 1;
+          else{ // caso contrário, atribui o valor "1" ao numero (corresponde ao 1º doc do ano em questão)
+            $doc_number = 1;
           }
         }
-      } else{
-        $max_number = DB::table('documents')->where('year', $year)->max('number');
-        $doc_number = $max_number + 1;
+      } else{ // caso os documentos sejam do mesmo ano, procura o número max e incrementa 1
+          $max_number = DB::table('documents')->where('year', $year)->max('number');
+          $doc_number = $max_number + 1;
       }
 
-      //Inserir numero do documento na BD
+      // Inserir numero do documento na BD
       DB::table('documents')
         ->where('id', $id_doc_atual)
         ->update(['number' => $doc_number]);
