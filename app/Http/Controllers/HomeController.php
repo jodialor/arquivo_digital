@@ -58,11 +58,17 @@ class HomeController extends Controller
       return view('dashboard', compact("doc","user","departs","doc_types"));
       //['doc'=>$doc], ['user'=>$user], ['departments'=>$departments], ['doc_types'=>$doc_types]
     }
+
     public function getLogin(){
 
       return redirect()->route('login');
     }
+
     public function postInsert(Request $request){
+      //id e ano do ultimo documento inserido na BD
+      $id_last_doc = DB::table('documents')->latest('id')->first()->id;
+      $year_last_doc = DB::table('documents')->where('id', $id_last_doc)->value('year');
+
       //Validation
       $year=date("Y");
       $this->validate($request,[
@@ -81,16 +87,47 @@ class HomeController extends Controller
       $id_tipo_doc = $request["type_doc"];
       $id_departamento =$request["departamento"];
       $file = '';
-      DB::table('documents')->insert([
-          ['year' => $year,
+
+      // Inserir dados do documento na BD
+      $id_doc_atual =
+        DB::table('documents')->insertGetId([
+           'number' => 0,
+           'year' => $year,
            'id_user' => $id_user,
            'assunto' => $assunto,
            'data' => $data,
            'receiver' => $receiver,
            'id_tipo_doc' => $id_tipo_doc ,
            'id_departamento' => $id_departamento,
-           'file' => $file]
+           'file' => $file
       ]);
+
+      // Atualizar/atribuir número do Documento criado
+
+      //verificar se o ultimo documento existente foi criado no ano atual
+      if($year_last_doc != $year){
+        $years_with_docs = DB::table('documents')->select('year')->distinct()->get()->toArray();
+
+        foreach ($years_with_docs as $key => $at_year) {
+          if($year == $at_year->year){
+            $max_number = DB::table('documents')->where('year', $year)->max('number');
+            $doc_number = $max_number + 1;
+            break;
+          }
+          else{
+          $doc_number = 1;
+          }
+        }
+      } else{
+        $max_number = DB::table('documents')->where('year', $year)->max('number');
+        $doc_number = $max_number + 1;
+      }
+
+      //Inserir numero do documento na BD
+      DB::table('documents')
+        ->where('id', $id_doc_atual)
+        ->update(['number' => $doc_number]);
+
       return redirect()->route('dashboard')->with(['message'=>'O documento foi Inserido com sucesso!']);;
     }
 
@@ -133,6 +170,29 @@ class HomeController extends Controller
              'id_departamento' => $id_departamento,
              'file' => $file]);
       return redirect()->route('dashboard')->with(['message'=>'O documento foi Alterado com sucesso!']);
+    }
+
+    // Atribuir número ao Documento criado
+    public function generateDocNumber(int $year_last_doc, int $year){
+      //verificar se o ultimo documento existente foi criado no ano atual
+      if($year_last_doc != $year){
+        $years_with_docs = DB::table('documents')->select('year')->distinct()->get()->toArray();
+
+        foreach ($years_with_docs as $key => $at_year) {
+          if($year == $at_year->year){
+            $max_number = DB::table('documents')->where('year', $year)->max('number');
+            $doc_number = $max_number + 1;
+            break;
+          }
+          else{
+          $doc_number = 1;
+          }
+        }
+      } else{
+        $max_number = DB::table('documents')->where('year', $year)->max('number');
+        $doc_number = $max_number + 1;
+      }
+      return $doc_number;
     }
 
 }

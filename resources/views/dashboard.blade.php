@@ -28,7 +28,7 @@
                 <tbody>
                   @foreach($doc as $docs)
                    <tr>
-                    <td style='min-width: 50px; text-align: center;'>{{$docs->id}} </td>
+                    <td style='min-width: 50px; text-align: center;'>{{$docs->number}} </td>
                     <td style='width: 80px;'>{{$docs->data}}</td>
                     <td>{{$docs->type}}</td>
                     <td>{{$docs->assunto}}</td>
@@ -126,7 +126,7 @@
             </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary modelInser" onclick="this.style.visibility = 'hidden'" ><i class="fa fa-check" aria-hidden="true"></i> Confirmar</button>
+          <button type="submit" class="btn btn-primary modelInser" onclick="this.style.visibility = ''" ><i class="fa fa-check" aria-hidden="true"></i> Confirmar</button>
           <input type="hidden" name="_token"  value="{{ csrf_token() }}" >
           <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Fechar</button>
         </div>
@@ -314,8 +314,8 @@
     var ano = data.getFullYear();
 
     document.getElementById('date').value= ano+"-"+mes+"-"+dia;
-    console.log(''+currentdate);
   });
+
   $('.modelInser').on('click', function(event) {
 
       departamento=document.getElementById('depart').value;
@@ -325,11 +325,7 @@
       tipo_doc=document.getElementById('type_doc').value;
       assunto1=document.getElementById('assunto').value;
       currentyear=new Date().getFullYear();
-      if(date==null){
-        console.log('nada');
-      } else{
-        console.log('funcionou');
-      }
+
       $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
       $.ajax({
               method: 'POST',
@@ -352,21 +348,13 @@
         var tipo_doc1;
         var assunto11;
 
-        console.log('elem:'+elem.id);
         id_doc=elem.id;
-         console.log('2');
         departamento1=document.getElementById('abbreviation_doc'+elem.id).value;
-         console.log('3');
         destinatario1=document.getElementById('receiver_doc'+elem.id).value;
-         console.log('4');
         utilizador1=document.getElementById('user_doc'+elem.id).value;
-         console.log('5');
         date1=document.getElementById('data_doc'+elem.id).value;
-         console.log('6');
         tipo_doc1=document.getElementById('type_doc_1'+elem.id).value;
-         console.log('7');
         assunto11=document.getElementById('assunto_doc'+elem.id).value;
-         console.log('8');
         currentyear=new Date().getFullYear();
 
         document.getElementById('depart_ver').value=departamento1;
