@@ -2,9 +2,7 @@
 @section('content')
 @include('includes.message-block')
 <div class="row">
-  <div class="col-md-2">
-  </div>
-  <div class="col-md-8">
+  <div class="col-md-10 col-md-offset-1">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class='box-title'><i class='fa fa-book'></i><b> Lista de Documentos </b></h4>
@@ -12,7 +10,7 @@
       <div class="panel-body">
         <div class='row-fluid'>
           <div id="postBody"></div>
-              <table id="example" class=' table-bordered table-striped' class="display" cellspacing="0" width="100%">
+              <table id="docs_results" class='table-bordered table-striped' class="display" cellspacing="0" width="100%">
                 <thead>
                   <tr>
                     <th>N.º</th>
@@ -28,7 +26,7 @@
                 <tbody>
                   @foreach($doc as $docs)
                    <tr>
-                    <td style='min-width: 50px; text-align: center;'>{{$docs->number}} </td>
+                    <td style='min-width: 50px; text-align: center;'>{{$docs->number}}/{{$docs->year}}</td>
                     <td style='width: 80px;'>{{$docs->data}}</td>
                     <td>{{$docs->type}}</td>
                     <td>{{$docs->assunto}}</td>
@@ -36,18 +34,19 @@
                     <td style='min-width: 55px;'>{{$docs->abbreviation}}</td>
                     <td>{{$docs->name}}</td>
                     <td>
-                    <a href='#'  type='button'class='btn btn-info btn-xs modelVer' onclick="myFunction(this)" id="{{$docs->id}}" ><span><i class='fa fa-eye' aria-hidden='true'></i></span></a>
-                    <a href='#' type='button'class='btn btn-warning btn-xs modelEdit'onclick="edit_func(this)" name="{{$docs->id}}" data-toggle="modal" data-target="#ModalEdit"><span><i class='fa fa-pencil' aria-hidden='true'></i></span></a>
+                    <a href='#' type='button' class='btn btn-info btn-xs modelVer' onclick="myFunction(this)" id="{{$docs->id}}" ><span><i class='fa fa-eye' aria-hidden='true'></i></span></a>
+                    <a href='#' type='button' class='btn btn-warning btn-xs modelEdit' onclick="edit_func(this)" name="{{$docs->id}}" data-toggle="modal" data-target="#ModalEdit"><span><i class='fa fa-pencil' aria-hidden='true'></i></span></a>
                     <a href="#" type='button' class='btn btn-danger btn-xs' onclick="apagar(this)" name="{{$docs->id}}"><span><i class='fa fa-trash' aria-hidden='true'></i></span></a></td>
                    </tr>
 
-                   <input type="text" id="id_doc" value="{{$docs->id}}"  style="display: none">
-                   <input type="text" id="data_doc{{$docs->id}}" value="{{$docs->data}}"  style="display: none">
-                   <input type="text" id="type_doc_1{{$docs->id}}" value="{{$docs->id_tipo_doc}}"  style="display: none">
-                   <input type="text" id="assunto_doc{{$docs->id}}"  value="{{$docs->assunto}}"  style="display: none">
-                   <input type="text" id="receiver_doc{{$docs->id}}"  value="{{$docs->receiver}}"  style="display: none">
-                   <input type="text" id="abbreviation_doc{{$docs->id}}"  value="{{$docs->id_departamento}}"  style="display: none">
-                   <input type="text" id="user_doc{{$docs->id}}"  value="{{$docs->id_user}}"  style="display: none">
+                   <input type="text" id="id_doc" value="{{$docs->id}}" style="display: none">
+                   <input type="text" id="num_doc{{$docs->id}}" value="{{$docs->number}}" style="display: none">
+                   <input type="text" id="data_doc{{$docs->id}}" value="{{$docs->data}}" style="display: none">
+                   <input type="text" id="type_doc_1{{$docs->id}}" value="{{$docs->id_tipo_doc}}" style="display: none">
+                   <input type="text" id="assunto_doc{{$docs->id}}" value="{{$docs->assunto}}" style="display: none">
+                   <input type="text" id="receiver_doc{{$docs->id}}" value="{{$docs->receiver}}" style="display: none">
+                   <input type="text" id="abbreviation_doc{{$docs->id}}" value="{{$docs->id_departamento}}" style="display: none">
+                   <input type="text" id="user_doc{{$docs->id}}" value="{{$docs->id_user}}" style="display: none">
 
                  @endforeach
                </tbody>
@@ -63,8 +62,6 @@
       </div>
     </div>
   </div>
-  <div class="col-md-2">
-  </div><!-- /.box -->
 </div>
 
 <!-- Modal Para Inserir-->
@@ -107,8 +104,8 @@
               </div>
               <div class='form-group has-feedback' style='width:270px!important;'>
                 <label>Data:</label><br>
-                <input type='date' class='form-control' id="date"  required='required'name='data'  required>
-                <span class='glyphicon glyphicon-calendar form-control-feedback' ></span>
+                <input type='date' class='form-control' id="date" name='data' required='required'>
+                <span class='glyphicon glyphicon-calendar form-control-feedback'></span>
                </div>
 
                <div class='form-group has-feedback'>
@@ -122,11 +119,10 @@
                  <input type='text' class='form-control' required='required' name="dest" placeholder='Destinatario: ' required>
                  <span class='glyphicon glyphicon-user form-control-feedback' ></span>
                </div>
-        	    <br>
             </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary modelInser" onclick="this.style.visibility = ''" ><i class="fa fa-check" aria-hidden="true"></i> Confirmar</button>
+          <button type="submit" class="btn btn-primary modelInser" onclick="" ><i class="fa fa-check" aria-hidden="true"></i> Confirmar</button>
           <input type="hidden" name="_token"  value="{{ csrf_token() }}" >
           <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Fechar</button>
         </div>
@@ -147,6 +143,11 @@
       <form class="form-group" action="{{route('edit')}}" method="post">
         <div class="modal-body">
             <div class="form-group">
+              <div class='form-group has-feedback'>
+                <label>Número:</label><br>
+                <input type='text' class='form-control' name='numero' id="numero_edi" required='required' disabled>
+                <span class='form-control-feedback'></span>
+              </div>
               <div class='form-group has-feedback'>
                 <label>Utilizador:</label><br>
                 <select id='utilizador_edi' name='utilizador_edi' class='btn btn-default dropdown-toggle'  required='required' style='text-align:left!important;'>
@@ -173,27 +174,26 @@
               </div>
               <div class='form-group has-feedback' style='width:270px!important;'>
                 <label>Data:</label><br>
-                <input type='date' class='form-control' id="date_edi" name='date_edi' placeholder='Data:  AAAA-MM-DD'  required='required'>
+                <input type='date' class='form-control' id="date_edi" name='date_edi' placeholder='Data:  AAAA-MM-DD'  required='required' disabled>
                 <span class='glyphicon glyphicon-calendar form-control-feedback' ></span>
                </div>
 
                <div class='form-group has-feedback'>
                  <label>Assunto:</label><br>
-                 <input type='text' class='form-control'  required='required'id='assunto_edi' name='assunto_edi' placeholder='Assunto: 'required='required'>
-                 <span class='glyphicon glyphicon-comment form-control-feedback' ></span>
+                 <input type='text' class='form-control' id='assunto_edi' name='assunto_edi' placeholder='Assunto:' required='required'>
+                 <span class='glyphicon glyphicon-comment form-control-feedback'></span>
                </div>
 
                <div class='form-group has-feedback'>
                  <label>Destinatario:</label><br>
-                 <input type='text' class='form-control' required='required' id="dest_edi" name ="dest_edi"placeholder='Destinatario: ' required='required'>
-                 <span class='glyphicon glyphicon-user form-control-feedback' ></span>
+                 <input type='text' class='form-control' id="dest_edi" name ="dest_edi"placeholder='Destinatario:' required='required'>
+                 <span class='glyphicon glyphicon-user form-control-feedback'></span>
                </div>
-        	    <br>
             </div>
         </div>
         <div class="modal-footer">
-          <input type="hidden" name="id" id="_user" value="" >
-          <input type="hidden" name="_token"  value="{{ csrf_token() }}" >
+          <input type="hidden" name="id" id="_user" value="">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}" >
           <button type="submit"class="btn btn-primary" ><i class="fa fa-check" aria-hidden="true"></i> Confirmar</button>
           <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Fechar</button>
         </div>
@@ -213,6 +213,11 @@
       <form class="form-group">
         <div class="modal-body">
             <div class="form-group">
+              <div class='form-group has-feedback'>
+                <label>Número:</label><br>
+                <input type='text' class='form-control'  required='required' name='numero' id="numero_ver" required='required' disabled>
+                <span class='form-control-feedback'></span>
+              </div>
               <div class='form-group has-feedback'>
                 <label>Utilizador:</label><br>
                 <select name='num_utilizador' class='btn btn-default dropdown-toggle' id="utilizador_ver" required='required' style='text-align:left!important;' disabled>
@@ -257,16 +262,16 @@
                  <input type='text' class='form-control' required='required'name='destinatarios' id="dest_ver" placeholder='Destinatario: ' required='required' disabled>
                  <span class='glyphicon glyphicon-user form-control-feedback' ></span>
                </div>
-        	    <br>
             </div>
         </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Fechar</button>
+        </div>
       </form>
-      <div class="modal-footer">
-          <button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i> Fechar</button>
-      </div>
     </div>
   </div>
 </div>
+
 <div class="modal fade" id="apagar_modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -300,6 +305,8 @@
   var token = '{{Session::token()}}';
   var urlEdit = "{{route('edit')}}";
   var date1;
+  var date_aux;
+  var currentyear;
 
 
   $('.date_doc').on('click', function(event) {
@@ -324,7 +331,9 @@
       date=document.getElementById('date').value;
       tipo_doc=document.getElementById('type_doc').value;
       assunto1=document.getElementById('assunto').value;
-      currentyear=new Date().getFullYear();
+
+      date_aux = new Date($('#date').val());
+      currentyear = date_aux.getFullYear();
 
       $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
       $.ajax({
@@ -341,22 +350,26 @@
  function myFunction(elem) {
         event.preventDefault();
         $("#ModalVer").modal();
+        var numero;
         var destinatario1;
         var departamento1;
         var utilizador1;
-
         var tipo_doc1;
         var assunto11;
 
         id_doc=elem.id;
+        numero=document.getElementById('num_doc'+elem.id).value;
         departamento1=document.getElementById('abbreviation_doc'+elem.id).value;
         destinatario1=document.getElementById('receiver_doc'+elem.id).value;
         utilizador1=document.getElementById('user_doc'+elem.id).value;
         date1=document.getElementById('data_doc'+elem.id).value;
         tipo_doc1=document.getElementById('type_doc_1'+elem.id).value;
         assunto11=document.getElementById('assunto_doc'+elem.id).value;
-        currentyear=new Date().getFullYear();
 
+        date_aux = new Date($('#data_doc'+elem.id).val());
+        currentyear = date_aux.getFullYear();
+
+        document.getElementById('numero_ver').value=numero+'/'+currentyear;
         document.getElementById('depart_ver').value=departamento1;
         document.getElementById('dest_ver').value=destinatario1;
         document.getElementById('utilizador_ver').value= utilizador1;
@@ -364,6 +377,7 @@
         document.getElementById('type_doc_ver').value=tipo_doc1;
         document.getElementById('assunto_ver').value=assunto11;
   }
+
   function apagar(vari) {
        event.preventDefault();
        $("#apagar_modal").modal();
@@ -373,6 +387,7 @@
   function edit_func(elem) {
          event.preventDefault();
          $("#ModelEdit").modal();
+         var numero;
          var destinatario_edi;
          var departamento_edi;
          var utilizador_edi;
@@ -381,15 +396,19 @@
          var assunto_edi;
 
           id_doc=elem.name;
+          numero=document.getElementById('num_doc'+elem.name).value;
           departamento_edi=document.getElementById('abbreviation_doc'+elem.name).value;
           destinatario_edi=document.getElementById('receiver_doc'+elem.name).value;
           utilizador_edi=document.getElementById('user_doc'+elem.name).value;
           date_edi=document.getElementById('data_doc'+elem.name).value;
           tipo_doc_edi=document.getElementById('type_doc_1'+elem.name).value;
           assunto_edi=document.getElementById('assunto_doc'+elem.name).value;
-          currentyear=new Date().getFullYear();
+
+          date_aux = new Date($('#data_doc'+elem.name).val());
+          currentyear = date_aux.getFullYear();
 
           document.getElementById('_user').value=id_doc;
+          document.getElementById('numero_edi').value=numero+'/'+currentyear;
           document.getElementById('depart_edi').value=departamento_edi;
           document.getElementById('dest_edi').value=destinatario_edi;
           document.getElementById('utilizador_edi').value= utilizador_edi;

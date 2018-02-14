@@ -31,16 +31,20 @@ class HomeController extends Controller
     {
         return view('dashboard');
     }
+    
     public function getlogout(){
       Auth::logout();
       return redirect()->route('login');
     }
+
     public function getDashboard(){
       $doc=DB::table('documents')
             ->join('users', 'users.id', '=', 'documents.id_user')
             ->join('type_docs', 'type_docs.id', '=', 'documents.id_tipo_doc')
             ->join('departments', 'departments.id', '=', 'documents.id_departamento')
             ->select('documents.*', 'type_docs.type', 'users.name','departments.abbreviation')
+            ->orderby("documents.year", "DESC")
+            ->orderby("documents.number", "DESC")
             ->get();
 
       $user=DB::table('users')
@@ -70,7 +74,6 @@ class HomeController extends Controller
       $year_last_doc = DB::table('documents')->where('id', $id_last_doc)->value('year');
 
       //Validation
-      $year=date("Y");
       $this->validate($request,[
         'utilizador' => 'required',
         'assunto' => 'required',
@@ -87,6 +90,7 @@ class HomeController extends Controller
       $id_tipo_doc = $request["type_doc"];
       $id_departamento =$request["departamento"];
       $file = '';
+      $year = date('Y', strtotime($data));
 
       // Inserir dados do documento na BD e obter o id do mesmo
       $id_doc_atual = DB::table('documents')->insertGetId([
@@ -110,12 +114,12 @@ class HomeController extends Controller
 
         foreach ($years_with_docs as $key => $at_year) {
           // verificar se no ano atual já existem docs
-          if($year == $at_year->year){  // se sim, procura o número max e incrementa 1
+          if($year == $at_year->year){  // se sim, procura o número max desse ano e incrementa 1
             $max_number = DB::table('documents')->where('year', $year)->max('number');
             $doc_number = $max_number + 1;
             break;
           }
-          else{ // caso contrário, atribui o valor "1" ao numero (corresponde ao 1º doc do ano em questão)
+          else{ // caso contrário, atribui o valor "1" ao numero do doc (corresponde ao 1º doc do ano em questão)
             $doc_number = 1;
           }
         }
@@ -144,7 +148,7 @@ class HomeController extends Controller
       $this->validate($request,[
         'utilizador_edi' => 'required',
         'assunto_edi' => 'required',
-        'date_edi' => 'required',
+        /*'date_edi' => 'required',*/
         'dest_edi' => 'required',
         'type_doc_edi' => 'required',
         'departamento_edi' => 'required',
@@ -162,38 +166,39 @@ class HomeController extends Controller
 
       DB::table('documents')
             ->where('id', $id)
-            ->update(['year' => $year,
-             'id_user' => $id_user,
+            ->update(['id_user' => $id_user,
              'assunto' => $assunto,
-             'data' => $data,
+             /*'data' => $data,*/
              'receiver' => $receiver,
              'id_tipo_doc' => $id_tipo_doc ,
              'id_departamento' => $id_departamento,
              'file' => $file]);
+
       return redirect()->route('dashboard')->with(['message'=>'O documento foi Alterado com sucesso!']);
     }
 
-    // Atribuir número ao Documento criado
+    // Atribuir um número ao Documento criado, com base no ano em que foi criado
     public function generateDocNumber(int $year_last_doc, int $year){
-      //verificar se o ultimo documento existente foi criado no ano atual
-      if($year_last_doc != $year){
+      //verificar se o ultimo doc existente foi ou não criado no ano atual
+      if($year_last_doc != $year){  // se tiver sido num ano diferente, faz o seguinte
+        // Obter todos os anos em que existam documentos criados
         $years_with_docs = DB::table('documents')->select('year')->distinct()->get()->toArray();
 
         foreach ($years_with_docs as $key => $at_year) {
-          if($year == $at_year->year){
+          // verificar se no ano atual já existem docs
+          if($year == $at_year->year){  // se sim, procura o número max desse ano e incrementa 1
             $max_number = DB::table('documents')->where('year', $year)->max('number');
             $doc_number = $max_number + 1;
             break;
           }
-          else{
-          $doc_number = 1;
+          else{ // caso contrário, atribui o valor "1" ao numero do doc (corresponde ao 1º doc do ano em questão)
+            $doc_number = 1;
           }
         }
-      } else{
-        $max_number = DB::table('documents')->where('year', $year)->max('number');
-        $doc_number = $max_number + 1;
+      } else{ // caso os documentos sejam do mesmo ano, procura o número max e incrementa 1
+          $max_number = DB::table('documents')->where('year', $year)->max('number');
+          $doc_number = $max_number + 1;
       }
-      return $doc_number;
     }
 
 }

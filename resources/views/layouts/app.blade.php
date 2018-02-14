@@ -2,7 +2,7 @@
 <html lang="{{ app()->getLocale() }}">
 
     @include('includes/head')
-    
+
 <body>
         @include('includes/header')
         @yield('content')
@@ -15,12 +15,15 @@
     <!-- Scripts -->
     <script>
     $(document).ready(function() {
-      $('#example').DataTable( {
+      $('#docs_results').DataTable( {
         "columnDefs":[{
           "targets": 'no-sort',
           "orderable": true,
         }],
-        "order": [[ 0, "desc" ]]
+        //ordenação descendente da tabela dos documentos, por numero
+        /*"order": [[ 0, 'desc' ]]*/
+        //nenhuma ordenação por defeito (ela é feita diretamente na query)
+        "order": []
       } );
     } );
     </script>

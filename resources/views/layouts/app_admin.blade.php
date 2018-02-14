@@ -2,7 +2,7 @@
 <html lang="{{ app()->getLocale() }}">
 
   @include('includes/head')
-  
+
 <body>
   <nav class="navbar navbar-default">
     <div class="container-fluid">
@@ -56,12 +56,13 @@
     <!-- Scripts -->
     <script>
     $(document).ready(function() {
+      //ordenar resultados das tabelas de administrador pelo id (1ªcoluna)
       $('#example').DataTable( {
         "columnDefs":[{
           "targets": 'no-sort',
           "orderable": true,
         }],
-        "order": [[ 0, "desc" ]]
+        "order": [[ 0, "asc" ]]
       } );
     } );
     </script>
